@@ -10,9 +10,6 @@ import kotlinx.coroutines.launch
 
 class MovieRepository {
 
-/*    @Inject
-    lateinit var myApi: MyApi*/
-
     private val mutableLiveData = MutableLiveData<List<MoviesResult>>()
 
     fun getMutableLiveData(): MutableLiveData<List<MoviesResult>> {

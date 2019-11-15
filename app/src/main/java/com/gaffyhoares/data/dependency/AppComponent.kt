@@ -1,9 +1,20 @@
 package com.gaffyhoares.data.dependency
 
-import com.gaffyhoares.MyApplication
+import android.app.Application
+import com.gaffyhoares.AppController
+import dagger.BindsInstance
 import dagger.Component
 
-@Component(modules = [ActivitiesModule::class])
+@Component(modules = [ApiModule::class])
 interface AppComponent {
-    fun inject(myApplication: MyApplication)
+
+   /* @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun application(application: Application): Builder
+
+        fun build(): AppComponent
+    }
+
+    fun inject(appController: AppController)*/
 }
