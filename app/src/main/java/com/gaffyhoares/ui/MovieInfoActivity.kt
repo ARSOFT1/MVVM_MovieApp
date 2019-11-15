@@ -16,10 +16,14 @@ class MovieInfoActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_info)
 
+        setUiElements()
+    }
 
-        val bundle = intent.extras
-        val jsonString = bundle!!.getString("movie")
-        val movie_detail = Gson().fromJson<MoviesResult>(jsonString, MoviesResult::class.java)
+    fun setUiElements() {
+        val movie_detail = Gson().fromJson<MoviesResult>(
+            intent.extras!!.getString("movie"),
+            MoviesResult::class.java
+        )
         if (movie_detail != null) {
             setBackArrowEnabled(toolbar, movie_detail.original_title, true)
             release_date.text = movie_detail.release_date
@@ -27,7 +31,7 @@ class MovieInfoActivity : BaseActivity() {
             overview.text = movie_detail.overview
             movie_id.text = movie_detail.id.toString()
             Glide.with(this)
-                .load(ApiUtils.IMG_BASE_URL + movie_detail.poster_path)
+                .load(ApiUtils.IMG_BASE_URL + movie_detail.backdrop_path)
                 .into(cover_img)
         }
     }

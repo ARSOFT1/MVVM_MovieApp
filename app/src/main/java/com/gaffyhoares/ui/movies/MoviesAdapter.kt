@@ -32,9 +32,9 @@ class MoviesAdapter(val context: Context, private val itemsList: List<MoviesResu
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        var item = itemsList.get(position)
+        val item = itemsList.get(position)
         holder.binding.movie = item
-        holder.binding.rootLayout.setOnClickListener {
+        holder.binding.parentLayout.setOnClickListener {
             listener?.itemClick(item)
         }
 

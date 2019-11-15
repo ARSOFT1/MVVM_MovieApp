@@ -1,4 +1,4 @@
-package com.gaffyhoares
+package com.gaffyhoares.utils
 
 import com.gaffyhoares.data.network.response.BaseResponse
 
