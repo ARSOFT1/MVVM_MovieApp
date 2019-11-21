@@ -7,9 +7,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gaffyhoares.R
-import com.gaffyhoares.data.network.ApiUtils
 import com.gaffyhoares.data.network.response.MoviesResult
 import com.gaffyhoares.databinding.MovieItemLayoutBinding
+import net.gahfy.feedme.utils.IMG_BASE_URL
 
 class MoviesAdapter(val context: Context, private val itemsList: List<MoviesResult>) :
     RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
@@ -39,7 +39,7 @@ class MoviesAdapter(val context: Context, private val itemsList: List<MoviesResu
         }
 
         Glide.with(context)
-            .load(ApiUtils.IMG_BASE_URL + item.poster_path)
+            .load(IMG_BASE_URL + item.poster_path)
             .into(holder.binding.posterImg)
     }
 

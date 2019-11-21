@@ -3,6 +3,7 @@ package com.gaffyhoares.data.network
 
 import com.gaffyhoares.data.network.response.DataResponse
 import com.gaffyhoares.data.network.response.MoviesResult
+import retrofit2.Call
 import retrofit2.http.GET
 
 interface MyApi {

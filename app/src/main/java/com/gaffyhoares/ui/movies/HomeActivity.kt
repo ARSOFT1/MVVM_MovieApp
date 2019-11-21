@@ -6,24 +6,30 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.facebook.stetho.Stetho
+import com.gaffyhoares.MyApplication
 import com.gaffyhoares.R
 import com.gaffyhoares.data.network.response.MoviesResult
 import com.gaffyhoares.ui.MovieInfoActivity
+import com.gaffyhoares.viewmodels.ViewModelProviderFactory
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
-
+import javax.inject.Inject
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var mainViewModel: MainViewModel
 
+    @Inject
+    lateinit var providerFactory: ViewModelProviderFactory
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Stetho.initializeWithDefaults(this)
-        setContentView(R.layout.activity_main)
 
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        setContentView(R.layout.activity_main)
+        (application as MyApplication).appComponent?.inject(this@HomeActivity)
+        mainViewModel = ViewModelProviders.of(this, providerFactory).get(MainViewModel::class.java)
+
         getMoviesList()
         swiperefresh.setOnRefreshListener {
             getMoviesList()
@@ -34,7 +40,6 @@ class HomeActivity : AppCompatActivity() {
         swiperefresh.isRefreshing = true
         mainViewModel.getMoviesList().observe(this, object : Observer<List<MoviesResult>> {
             override fun onChanged(movieList: List<MoviesResult>?) {
-
                 initView(movieList!!)
                 swiperefresh.isRefreshing = false
             }
@@ -43,10 +48,14 @@ class HomeActivity : AppCompatActivity() {
 
     private fun initView(movieList: List<MoviesResult>) {
 
-        reyclerView.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        reyclerView.setHasFixedSize(false)
         val moviesAdapter = MoviesAdapter(this, movieList)
+        reyclerView.apply {
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            setHasFixedSize(false)
+            adapter = moviesAdapter
+        }
+
+
         moviesAdapter.setListener(object : MoviesAdapter.itemClickListener {
             override fun itemClick(item: MoviesResult) {
                 val jsonString = Gson().toJson(item)
@@ -56,7 +65,5 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
-        reyclerView?.adapter = moviesAdapter
-
     }
 }
