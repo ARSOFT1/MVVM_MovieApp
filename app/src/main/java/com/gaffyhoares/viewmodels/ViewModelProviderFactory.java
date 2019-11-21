@@ -2,13 +2,16 @@ package com.gaffyhoares.viewmodels;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Map;
+
 import javax.inject.Inject;
 import javax.inject.Provider;
 
 public class ViewModelProviderFactory implements ViewModelProvider.Factory {
 
-    private static final String TAG = "ViewModelProviderFactor";
 
     private final Map<Class<? extends ViewModel>, Provider<ViewModel>> creators;
 
@@ -17,8 +20,9 @@ public class ViewModelProviderFactory implements ViewModelProvider.Factory {
         this.creators = creators;
     }
 
+    @NotNull
     @Override
-    public <T extends ViewModel> T create(Class<T> modelClass) {
+    public <T extends ViewModel> T create(@NotNull Class<T> modelClass) {
         Provider<? extends ViewModel> creator = creators.get(modelClass);
         if (creator == null) { // if the viewmodel has not been created
 
