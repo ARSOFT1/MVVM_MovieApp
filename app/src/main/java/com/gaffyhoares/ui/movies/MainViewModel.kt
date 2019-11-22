@@ -10,8 +10,8 @@ class MainViewModel @Inject constructor(private val movieRepository: MovieReposi
     ViewModel() {
 
 
-    fun getMoviesList(): LiveData<List<MoviesResult>> {
-        return movieRepository.getMutableLiveData()
+    fun getMoviesList(year:String): LiveData<List<MoviesResult>> {
+        return movieRepository.getMutableLiveData(year)
     }
 
 }

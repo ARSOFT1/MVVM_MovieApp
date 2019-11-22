@@ -32,7 +32,7 @@ class MovieInfoActivity : BaseActivity() {
             overview.text = movie_detail.overview
             movie_id.text = movie_detail.id.toString()
             Glide.with(this)
-                .load(IMG_BASE_URL + movie_detail.backdrop_path)
+                .load(IMG_BASE_URL + movie_detail.poster_path)
                 .into(cover_img)
         }
     }

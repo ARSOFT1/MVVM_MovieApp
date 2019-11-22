@@ -8,6 +8,6 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [AppModule::class, ViewModelFactoryModule::class])
 interface AppComponent {
-    fun inject(myApplication: MyApplication?)
-    fun inject(activity: HomeActivity?)
+    fun inject(myApplication: MyApplication)
+    fun inject(activity: HomeActivity)
 }
