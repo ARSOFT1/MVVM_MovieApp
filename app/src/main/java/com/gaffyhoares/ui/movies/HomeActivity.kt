@@ -30,10 +30,10 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setBackArrowEnabled(toolbar, "", false)
+
         (application as MyApplication).appComponent?.inject(this@HomeActivity)
 
         mainViewModel = ViewModelProviders.of(this, providerFactory).get(MainViewModel::class.java)
-
         getMoviesList()
         swiperefresh.setOnRefreshListener {
             getMoviesList()
@@ -42,11 +42,14 @@ class HomeActivity : BaseActivity() {
 
     private fun getMoviesList() {
         swiperefresh.isRefreshing = true
-        mainViewModel.getMoviesList(year).observe(this, object : Observer<List<MoviesResult>> {
+
+        val moviesData = mainViewModel.getMoviesList(year)
+        moviesData.observe(this, object : Observer<List<MoviesResult>> {
             override fun onChanged(t: List<MoviesResult>?) {
                 initView(t!!)
                 swiperefresh.isRefreshing = false
             }
+
         })
     }
 
@@ -103,7 +106,29 @@ class HomeActivity : BaseActivity() {
                 getMoviesList()
                 true
             }
+            R.id.popular -> {
+                getTopMovies("popular")
+                true
+            }
+            R.id.top_rated -> {
+                getTopMovies("top_rated")
+                true
+            }
+            R.id.upcoming -> {
+                getTopMovies("upcoming")
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun getTopMovies(movie_category: String) {
+        mainViewModel.getTopRatedMovieList(movie_category)
+            .observe(this, object : Observer<List<MoviesResult>> {
+                override fun onChanged(t: List<MoviesResult>?) {
+                    initView(t!!)
+                }
+            })
     }
 }

@@ -21,7 +21,39 @@ class MovieRepository @Inject constructor(private val myApi: MyApi) {
                 mutableLiveData.postValue(api.results)
             }
         }
+        return mutableLiveData
+    }
 
+    fun getTopPopularMovies(): MutableLiveData<List<MoviesResult>> {
+
+        GlobalScope.launch {
+            val api = safeApi { myApi.getPopularMovies() }
+            if (api.results != null) {
+                mutableLiveData.postValue(api.results)
+            }
+        }
+        return mutableLiveData
+    }
+
+    fun getTopUpComing(): MutableLiveData<List<MoviesResult>> {
+
+        GlobalScope.launch {
+            val api = safeApi { myApi.getUpComingMovies() }
+            if (api.results != null) {
+                mutableLiveData.postValue(api.results)
+            }
+        }
+        return mutableLiveData
+    }
+
+    fun getTopRatedMovies(): MutableLiveData<List<MoviesResult>> {
+
+        GlobalScope.launch {
+            val api = safeApi { myApi.getTopRatedMovies() }
+            if (api.results != null) {
+                mutableLiveData.postValue(api.results)
+            }
+        }
         return mutableLiveData
     }
 }
